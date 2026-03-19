@@ -2,11 +2,27 @@ import { useState } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import { useEffect } from "react";
+import axios from "axios";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
 
   const [filterValue, setfilterValue] = useState("");
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await axios.get("http://localhost:3001/persons");
+        const data = await res.data;
+        setPersons(data);
+      } catch (error) {
+        console.error(`This is : ${error}`);
+      }
+    }
+
+    getData();
+  }, []);
 
   const filterPersons = filterValue
     ? persons.filter((np) =>
