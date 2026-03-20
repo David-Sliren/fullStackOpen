@@ -9,7 +9,7 @@ const PersonForm = ({ newPersons }) => {
     const newNumberPhone = {
       id: Math.floor(Math.random() * 999),
       name: newName,
-      tel: newNumber,
+      number: newNumber,
     };
 
     newPersons(newNumberPhone);
