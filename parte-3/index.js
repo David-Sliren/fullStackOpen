@@ -8,10 +8,12 @@ let { phoneBook } = require("./constants/default.js");
 const { randomId } = require("./utils/randoms.js");
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(morgan("tiny"));
+
+app.use(express.static("dist"));
 
 app.get("/", (req, res) => {
   res.send("Hello Word");

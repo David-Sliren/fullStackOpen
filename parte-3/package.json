@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:ui": "rm -r dist && cd ../parte-2/phoneBook && rm -r dist && pnpm run build && cp -r dist ../../parte-3 && echo 'se hizo'",
+    "deploy": "fly deploy",
+    "deploy:full": "pnpm run build:ui && pnpm run deploy"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +19,7 @@
     "morgan": "^1.10.1"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.10",
     "nodemon": "^3.1.14"
   }
 }
