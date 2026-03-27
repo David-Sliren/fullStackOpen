@@ -10,7 +10,7 @@ import Notification from "./components/Notification";
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [filterValue, setfilterValue] = useState("");
-  const [mesagge, setMessage] = useState("");
+  const [mesagge, setMessage] = useState({ text: "", isError: false });
   useEffect(() => {
     phoneService.getAll().then((data) => setPersons(data));
   }, []);
@@ -40,19 +40,32 @@ const App = () => {
           setPersons(newPhone);
         });
 
-        setMessage(`has been update ${data.name}`);
+        setMessage({ text: `has been update ${data.name}`, isError: false });
 
-        setTimeout(() => setMessage(null), 4000);
+        setTimeout(
+          () =>
+            setMessage({
+              text: "",
+              isError: false,
+            }),
+          4000,
+        );
       }
       return;
     }
 
     phoneService
       .create(data)
-      .then((newData) => setPersons([...persons, newData]));
-    setMessage(`has been added ${data.name}`);
+      .then((newData) => {
+        setPersons([...persons, newData]);
 
-    setTimeout(() => setMessage(null), 4000);
+        setMessage({ text: `has been added ${data.name}`, isError: false });
+      })
+      .catch((error) =>
+        setMessage({ text: error.response.data.error, isError: true }),
+      );
+
+    setTimeout(() => setMessage({ text: "", isError: null }), 4000);
   }
 
   function handleDeleted(id) {
@@ -68,7 +81,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification mesaage={mesagge} />
+      <Notification mesaage={mesagge.text} isError={mesagge.isError} />
       <h2>Phonebook</h2>
       <Filter numberPersons={persons} onAction={setfilterValue} />
 

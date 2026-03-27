@@ -1,5 +1,3 @@
-import phoneService from "../services/phoneService";
-
 const Persons = ({ numberPersons, onDelete }) => {
   return (
     <table>
