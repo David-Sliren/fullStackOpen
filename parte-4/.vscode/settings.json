@@ -1,0 +1,6 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "standard.vscode-standard",
+  "standard.autoFixOnSave": true,
+  "javascript.format.enable": false
+}

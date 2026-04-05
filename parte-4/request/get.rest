@@ -1,0 +1,29 @@
+# Get All
+GET http://localhost:3000/api/blogs
+
+### Post 
+POST http://localhost:3000/api/blogs
+Content-Type: application/json
+
+{
+    "title": "50 sombras de gray",
+"author": "papas",
+"url": "https://nosequrl",
+"likes": 5
+}
+
+### Delete
+
+DELETE http://localhost:3000/api/blogs/69d1c0a5869defaa584be062
+
+
+### Update
+PUT http://localhost:3000/api/blogs/69d1bf22a2cf3cf1908e9cfc
+Content-Type: application/json
+
+{
+    "title": "50 sombras de gray",
+"author": "Que dicha",
+"url": "https://nosequrl",
+"likes": 5
+}
