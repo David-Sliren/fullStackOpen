@@ -1,6 +1,10 @@
 {
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "standard.vscode-standard",
+  "prettier.enable": false,
+  "editor.formatOnSave": false, // Desactivamos el formateo genérico
+  "standard.enable": true,
   "standard.autoFixOnSave": true,
-  "javascript.format.enable": false
+  "editor.codeActionsOnSave": {
+    "source.fixAll.standard": "always",
+    "source.fixAll.eslint": "never" // Por si acaso tienes ESLint molestando también
+  }
 }

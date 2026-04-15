@@ -1,0 +1,40 @@
+# Variables
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImJlcmVuamVuYSIsImlkIjoiNjlkZWY2MWJmOWExMWU4NjNmYzM3ZWEwIiwiaWF0IjoxNzc2MjIwMTYwfQ.emt8MfgdFWA_4SsFKrTRP9pOrwLPhkREOLQvIYerZG0
+
+@token2 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImJlcmVuamVuYTIiLCJpZCI6IjY5ZGVmNjA4ZjlhMTFlODYzZmMzN2U5ZSIsImlhdCI6MTc3NjIyMzQxMn0.vT-kKQrsAr1OksgRG32nwlEKKVre_mdeDJm6k1GTt7o
+
+@idDelete = 69def835f9a11e863fc37ead
+
+@idUpdate = 69d1bf22a2cf3cf1908e9cfc
+
+# Get All
+GET http://localhost:3000/api/blogs
+
+### Post 
+POST http://localhost:3000/api/blogs
+Content-Type: application/json
+Authorization: Bearer {{token2}}
+
+{
+    "title": "50 sombras de los papoticos 4",
+    "author": "papas",
+    "url": "https://nosequrl",
+    "likes": 5
+}
+
+### Delete
+
+DELETE http://localhost:3000/api/blogs/{{idDelete}}
+Authorization: Bearer {{token}}
+
+
+### Update
+PUT http://localhost:3000/api/blogs/{{idUpdate}}
+Content-Type: application/json
+
+{
+    "title": "50 sombras de gray",
+"author": "Que dicha",
+"url": "https://nosequrl",
+"likes": 5
+}

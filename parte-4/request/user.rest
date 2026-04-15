@@ -1,0 +1,21 @@
+#variables
+@idDelete = 69d4457566526817b7c4c369
+
+### Get Users
+GET http://localhost:3000/api/users
+
+### Post
+
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{   
+    
+    "userName": "berenjena",
+    "name": "azules",
+    "password": "papas180"
+}
+
+###
+
+DELETE http://localhost:3000/api/users/{{idDelete}}

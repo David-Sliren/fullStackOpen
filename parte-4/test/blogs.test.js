@@ -43,7 +43,7 @@ describe('test 4.10', async () => {
   })
 })
 
-describe.only('test 4.11', async () => {
+describe('test 4.11', async () => {
   test('check that the property like to be', async () => {
     const result = await blogs[1]
 
