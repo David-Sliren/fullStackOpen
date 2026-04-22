@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
-import { getAll, setToken } from "./services/blogs";
+import { getAll, setToken, deleteOne, update } from "./services/blogs";
 import Login, { KEY_LOCALSTORAGE } from "./components/Login";
 import CreateBlog from "./components/CreateBlog";
+import { Toggle } from "./components/ui/Toggle";
+import { order } from "./utils/order";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -59,6 +61,39 @@ const App = () => {
     setUser(null);
   }
 
+  async function handlerDelete(id) {
+    const permission = window.confirm(
+      "Are you sure that you want deleted the blog?",
+    );
+
+    if (!permission) return;
+    try {
+      const newBlog = blogs.filter((item) => item.id !== id);
+      setBlogs(newBlog);
+      await deleteOne(id);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handlerUpdateLike(blog) {
+    try {
+      const newBlog = {
+        ...blog,
+        likes: blog.likes + 1,
+      };
+
+      const updateBlogs = blogs.map((item) =>
+        item.id === blog.id ? newBlog : item,
+      );
+      setBlogs(updateBlogs);
+
+      await update(blog.id, newBlog);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
       <div className="">
@@ -74,15 +109,27 @@ const App = () => {
       {!user ? (
         <Login handler={handlerUser} handlerMessage={handlerMessage} />
       ) : (
-        <CreateBlog
-          username={user.userName}
-          handlerMessage={handlerMessage}
-          handlerCloseSesion={handlerCloseSesion}
-        />
+        <>
+          <div className="title">
+            <h2>{user.userName}</h2>
+            <button onClick={handlerCloseSesion}>Cerrar sesion</button>
+          </div>
+          <hr />
+          <Toggle
+            handlerMessage={handlerMessage}
+            dataBlogs={blogs}
+            handlerBlogs={setBlogs}
+          />
+        </>
       )}
       <h2>blogs</h2>
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+      {order(blogs).map((blog, i) => (
+        <Blog
+          key={i}
+          blog={blog}
+          handlerDelete={() => handlerDelete(blog.id)}
+          handlerUpdateLike={() => handlerUpdateLike(blog)}
+        />
       ))}
     </div>
   );

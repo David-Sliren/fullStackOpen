@@ -1,6 +1,6 @@
 import { create } from "../services/blogs";
 
-const CreateBlog = ({ username, handlerMessage, handlerCloseSesion }) => {
+const CreateBlog = ({ handlerMessage, handlerIsOpen, handlerBlogs }) => {
   async function handlerSubmit(e) {
     e.preventDefault();
 
@@ -9,47 +9,49 @@ const CreateBlog = ({ username, handlerMessage, handlerCloseSesion }) => {
 
     try {
       await create(values);
+
+      handlerBlogs((item) => [...item, values]);
+
       handlerMessage({
         info: "The blog was created successfully",
         isHidden: false,
         isCorrect: true,
       });
+      handlerIsOpen();
       e.target.reset();
     } catch (error) {
-      handlerMessage(error);
+      handlerMessage({
+        info: error,
+        isHidden: false,
+        isCorrect: false,
+      });
     }
   }
 
   return (
     <form onSubmit={handlerSubmit}>
-      <div>
-        <h2>{username}</h2>
-        <button onClick={handlerCloseSesion}>Cerrar sesion</button>
-      </div>
-      <hr />
       <span>Create new blog</span>
       <br />
       <hr />
-      <label>Title</label>
-      <input type="text" name="title" />
+      <label>Title: </label>
+      <input type="text" name="title" required />
       <br />
       <br />
-      <label>Author</label>
-      <input type="text" name="author" />
+      <label>Author: </label>
+      <input type="text" name="author" required />
       <br />
       <br />
-      <label>Url</label>
-      <input type="text" name="url" />
+      <label>Url: </label>
+      <input type="text" name="url" required />
       <br />
       <br />
 
-      <label>Likes</label>
+      <label>Likes: </label>
       <input type="number" name="likes" min={0} />
       <br />
       <br />
 
       <button type="submit">Crear</button>
-      <hr />
     </form>
   );
 };
