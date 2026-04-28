@@ -34,24 +34,26 @@ const CreateBlog = ({ handlerMessage, handlerIsOpen, handlerBlogs }) => {
       <br />
       <hr />
       <label>Title: </label>
-      <input type="text" name="title" required />
+      <input id="title-blog" type="text" name="title" required />
       <br />
       <br />
       <label>Author: </label>
-      <input type="text" name="author" required />
+      <input id="author-blog" type="text" name="author" required />
       <br />
       <br />
       <label>Url: </label>
-      <input type="text" name="url" required />
+      <input id="url-blog" type="text" name="url" required />
       <br />
       <br />
 
       <label>Likes: </label>
-      <input type="number" name="likes" min={0} />
+      <input id="likes-blog" name="likes" min={0} />
       <br />
       <br />
 
-      <button type="submit">Crear</button>
+      <button id="submit-button" type="submit">
+        Crear
+      </button>
     </form>
   );
 };
