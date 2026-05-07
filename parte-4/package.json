@@ -8,7 +8,8 @@
     "start": "NODE_ENV=production node index.js",
     "test": "NODE_ENV=test node --test",
     "lint": "standard",
-    "fix": "standard --fix"
+    "fix": "standard --fix",
+    "start:test": "NODE_ENV=test node index.js"
   },
   "keywords": [],
   "author": "",

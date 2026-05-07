@@ -129,6 +129,7 @@ const App = () => {
           blog={blog}
           handlerDelete={() => handlerDelete(blog.id)}
           handlerUpdateLike={() => handlerUpdateLike(blog)}
+          user={user}
         />
       ))}
     </div>
