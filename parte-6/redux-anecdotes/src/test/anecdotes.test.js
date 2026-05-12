@@ -1,6 +1,17 @@
 import freeze from "deep-freeze";
 import { describe, test, expect } from "vitest";
-import anecdoteReducer, { initialState } from "../store/anecdoteReducer";
+import anecdoteReducer, {
+  initialState,
+  createAnecdote,
+  addVotes,
+} from "../store/slices/anecdoteSlice";
+
+import filterAncedotesReducer, {
+  filterAnecdotes,
+} from "../store/slices/filterAncedotesSlice";
+import notificationReducer, {
+  newNotification,
+} from "../store/slices/notificationSlice";
 
 describe("test the reducer of redux", () => {
   const initialAnect = [
@@ -27,7 +38,7 @@ describe("test the reducer of redux", () => {
 
   test("can add votes", () => {
     const state = initialAnect;
-    const action = { type: "ADDVOTES", payload: { id: 2 } };
+    const action = addVotes({ id: 2 });
 
     const anecdote = anecdoteReducer(state, action);
 
@@ -41,15 +52,31 @@ describe("test the reducer of redux", () => {
 
   test("can add new anecdote", () => {
     const state = initialAnect;
-    const action = {
-      type: "NEWANECDOTE",
-      payload: { content: "The black Mamba bit me", id: 4, votes: 0 },
-    };
+    const action = createAnecdote("pensare en ti");
 
-    const anecdote = anecdoteReducer(state, action);
     freeze(state);
+    const anecdote = anecdoteReducer(state, action);
 
     expect(anecdote).toHaveLength(3);
-    expect(anecdote[anecdote.length - 1]).toEqual(action.payload);
+    expect(anecdote[anecdote.length - 1].content).toEqual(action.payload);
+  });
+
+  test("can filter state", () => {
+    const state = "hola";
+    const action = filterAnecdotes("paracetamol");
+
+    freeze(state);
+    const filter = filterAncedotesReducer(state, action);
+
+    expect(filter).toEqual(action.payload);
+  });
+
+  test("can send notification", () => {
+    const state = "";
+    const action = newNotification("new notification");
+    freeze(state);
+    const notification = notificationReducer(state, action);
+
+    expect(notification).toEqual(action.payload);
   });
 });

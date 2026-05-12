@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addVotes } from "../store/anecdoteReducer";
+import { addVotes } from "../store/slices/anecdoteSlice";
 import { sortListAnecdotes } from "../utils/sorts";
+import { newNotification } from "../store/slices/notificationSlice";
 
 const NewAnecdote = ({ id, content, votes, handleClick }) => {
   return (
@@ -15,19 +16,30 @@ const NewAnecdote = ({ id, content, votes, handleClick }) => {
 };
 
 export const AnecdoteList = () => {
-  const anecdotes = useSelector((state) => state);
   const dispatch = useDispatch();
+  const anecdotes = useSelector(({ filter, anecdote }) => {
+    return filter
+      ? anecdote.filter((an) =>
+          an.content.toLowerCase().includes(filter.toLowerCase()),
+        )
+      : anecdote;
+  });
+
+  function handlerAddVotes(id) {
+    dispatch(addVotes({ id }));
+    dispatch(newNotification("you just gave like"));
+  }
 
   return (
     <div>
       <h2>Anecdotes</h2>
-      {sortListAnecdotes(anecdotes).map((anecdote) => (
+      {sortListAnecdotes([...anecdotes]).map((anecdote) => (
         <NewAnecdote
           key={anecdote.id}
           id={anecdote.id}
           content={anecdote.content}
           votes={anecdote.votes}
-          handleClick={() => dispatch(addVotes(anecdote.id))}
+          handleClick={() => handlerAddVotes(anecdote.id)}
         />
       ))}
     </div>
