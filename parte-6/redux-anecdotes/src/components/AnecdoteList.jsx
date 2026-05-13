@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addVotes } from "../store/slices/anecdoteSlice";
+import { setNewVotes } from "../store/slices/anecdoteSlice";
 import { sortListAnecdotes } from "../utils/sorts";
-import { newNotification } from "../store/slices/notificationSlice";
+import { setNewNotidication } from "../store/slices/notificationSlice";
 
 const NewAnecdote = ({ id, content, votes, handleClick }) => {
   return (
@@ -25,9 +25,9 @@ export const AnecdoteList = () => {
       : anecdote;
   });
 
-  function handlerAddVotes(id) {
-    dispatch(addVotes({ id }));
-    dispatch(newNotification("you just gave like"));
+  function handlerAddVotes(id, content) {
+    dispatch(setNewVotes({ id }));
+    dispatch(setNewNotidication(`you just gave like to: ${content}`, 4));
   }
 
   return (
@@ -39,7 +39,7 @@ export const AnecdoteList = () => {
           id={anecdote.id}
           content={anecdote.content}
           votes={anecdote.votes}
-          handleClick={() => handlerAddVotes(anecdote.id)}
+          handleClick={() => handlerAddVotes(anecdote.id, anecdote.content)}
         />
       ))}
     </div>

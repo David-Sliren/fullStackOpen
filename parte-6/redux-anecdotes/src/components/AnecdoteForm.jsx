@@ -1,17 +1,17 @@
 import { useDispatch } from "react-redux";
-import { createAnecdote } from "../store/slices/anecdoteSlice";
-import { newNotification } from "../store/slices/notificationSlice";
+import { setNewAnecdote } from "../store/slices/anecdoteSlice";
+import { setNewNotidication } from "../store/slices/notificationSlice";
 
 export const AnecdoteForm = () => {
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const value = e.target.text.value;
-    dispatch(createAnecdote(value));
-    dispatch(newNotification("you created a new anecdote"));
     e.target.text.value = "";
+    dispatch(setNewAnecdote(value));
+    dispatch(setNewNotidication("you created a new anecdote", 5));
   };
 
   return (
