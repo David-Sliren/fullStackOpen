@@ -4,7 +4,7 @@ const User = require('../modules/user')
 
 usersRouter.get('/', async (request, response, next) => {
   try {
-    const getAll = await User.find({}).populate('blogs')
+    const getAll = await User.find({}).populate('blogs', { id: 1 })
     response.status(200).json(getAll)
   } catch (error) {
     next(error)
@@ -13,7 +13,6 @@ usersRouter.get('/', async (request, response, next) => {
 
 usersRouter.post('/', async (request, response, next) => {
   const { userName, name, password } = request.body
-  // console.log('hey')
   if (!password || password.lenght < 4) {
     return response
       .status(400)
@@ -43,6 +42,20 @@ usersRouter.delete('/:id', async (request, response, next) => {
     if (!deleteData) return response.status(404).json({ error: 'Not found' })
 
     response.status(200).json({ deleteData })
+  } catch (error) {
+    next(error)
+  }
+})
+
+usersRouter.get('/:id', async (req, res, next) => {
+  const { id } = req.params
+
+  try {
+    const userId = await User.findById(id).populate('blogs', {
+      id: 1, title: 1
+    })
+
+    res.status(200).json(userId)
   } catch (error) {
     next(error)
   }

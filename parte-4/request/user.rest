@@ -1,5 +1,6 @@
 #variables
 @idDelete = 69d4457566526817b7c4c369
+@idGetUser = 69def608f9a11e863fc37e9e
 
 ### Get Users
 GET http://localhost:3000/api/users
@@ -19,3 +20,6 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:3000/api/users/{{idDelete}}
+
+###
+GET http://localhost:3000/api/users/{{idGetUser}}

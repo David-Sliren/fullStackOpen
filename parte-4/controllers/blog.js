@@ -1,6 +1,7 @@
 const blogsRoutes = require('express').Router()
 const Blog = require('../modules/blog')
 
+// Gets ----
 blogsRoutes.get('/', async (request, response, next) => {
   try {
     const blogs = await Blog.find({}).populate('user', { userName: 1, id: 1 })
@@ -10,6 +11,22 @@ blogsRoutes.get('/', async (request, response, next) => {
     next(error)
   }
 })
+
+blogsRoutes.get('/:id', async (req, res, next) => {
+  const { id } = req.params
+
+  try {
+    const blogId = await Blog.findById(id)
+
+    if (!blogId) return res.status(404).json({ error: 'Blog  not found' })
+
+    res.status(200).json(blogId)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// Posts ----
 
 blogsRoutes.post('/', async (request, response, next) => {
   const { title, author, url, likes } = request.body
@@ -25,7 +42,8 @@ blogsRoutes.post('/', async (request, response, next) => {
       author,
       url,
       likes,
-      user: userUnique._id
+      user: userUnique._id,
+      comments: []
     })
 
     const saveBlog = await newBlog.save()
@@ -38,6 +56,8 @@ blogsRoutes.post('/', async (request, response, next) => {
     next(error)
   }
 })
+
+// Deletes ---
 
 blogsRoutes.delete('/:id', async (request, response, next) => {
   const { id } = request.params
@@ -63,19 +83,35 @@ blogsRoutes.delete('/:id', async (request, response, next) => {
   }
 })
 
-blogsRoutes.put('/:id', async (request, response, next) => {
+// Patch ------
+
+blogsRoutes.patch('/:id/likes', async (request, response, next) => {
   const { id } = request.params
-  const body = request.body
+  const { likes } = request.body
 
   try {
     const newBlog = {
-      title: body.title,
-      author: body.author,
-      url: body.url,
-      likes: body.likes
+      likes
     }
-    const data = await Blog.findByIdAndUpdate(id, newBlog, { new: true })
-    response.status(202).json(data)
+
+    const like = await Blog.findByIdAndUpdate(id, { $set: newBlog }, { returnDocument: 'after', runValidators: true })
+    if (!like) return response.status(400).json({ error: 'bad request' })
+    response.status(200).json(like)
+  } catch (error) {
+    next(error)
+  }
+})
+
+blogsRoutes.patch('/:id/comments', async (request, response, next) => {
+  const { id } = request.params
+  const { text } = request.body
+  const user = request.user
+
+  try {
+    const newComment = { text, user: user._id }
+    const comment = await Blog.findByIdAndUpdate(id, { $push: { comments: newComment } }, { returnDocument: 'after', runValidators: true })
+    if (!comment) return response.status(400).json({ error: 'bad request' })
+    response.status(201).json(comment)
   } catch (error) {
     next(error)
   }
