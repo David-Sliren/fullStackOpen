@@ -1,0 +1,27 @@
+{
+  // 1. Desactivar formateadores genéricos
+  "editor.formatOnSave": false,
+
+  // 2. Desactivar el formateador por defecto de JS/TS
+  "[javascript]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  },
+  "[javascriptreact]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  },
+  "[typescript]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  },
+
+  // 3. LA CLAVE: Decirle a VS Code que use ESLint para corregir al guardar
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
+}
